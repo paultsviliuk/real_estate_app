@@ -6,6 +6,8 @@ from rest_framework.views import APIView
 from .models import House
 from .models import Checker
 from .serializers import HouseSerializer
+from .producer import publish
+
 import random
 
 
@@ -26,6 +28,7 @@ class HouseViewSet(viewsets.ViewSet):
         house_serializer = HouseSerializer(data=request.data)
         house_serializer.is_valid(raise_exception=True)
         house_serializer.save()
+        publish('house_created', house_serializer.data)
         return Response(house_serializer.data, status=status.HTTP_201_CREATED)
 
     # Creating the retrieve action:
@@ -40,6 +43,7 @@ class HouseViewSet(viewsets.ViewSet):
         house_serializer = HouseSerializer(instance=house, data=request.data)
         house_serializer.is_valid(raise_exception=True)
         house_serializer.save()
+        publish('house_updated', house_serializer.data)
         return Response(house_serializer.data, status=status.HTTP_202_ACCEPTED)
 
     # Creating the destroy action:

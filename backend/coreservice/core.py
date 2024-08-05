@@ -1,9 +1,10 @@
 from dataclasses import dataclass
 
-from flask import Flask
+from flask import Flask, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy import UniqueConstraint
+import requests
 
 
 core = Flask(__name__)
@@ -41,9 +42,45 @@ class HouseChecker(db.Model):
 
 
 
-@core.route('/')
+@core.route('/api/houses')
 def index():
-    return '<h1>Hello World!</h1>'
+    return jsonify(House.query.all())
+
+
+@core.route('/api/houses/<int:id>/like', methods=['POST'])
+def like(id):
+    req = requests.get("'https://ed-5259558390071296.educative.run'/api/checker")
+    json = req.json()
+
+    try:
+        houseChecker = HouseChecker(checker_id=json['id'], house_id=id)
+        db.session.add(houseChecker)
+        db.session.commit()
+
+    except:
+        abort(400, 'You have liked this house.')
+
+    return jsonify({
+        'message': 'success'
+    })
+
+
+@core.route('/api/houses/<int:id>/check', methods=['POST'])
+def check(id):
+    req = requests.get("'https://ed-5259558390071296.educative.run'/api/checker")
+    json = req.json()
+
+    try:
+        houseChecker = HouseChecker(checker_id=json['id'], house_id=id)
+        db.session.add(houseChecker)
+        db.session.commit()
+
+    except:
+        abort(400, 'You have checked this house.')
+
+    return jsonify({
+        'message': 'success'
+    })
 
 
 if __name__ == '__main__':
