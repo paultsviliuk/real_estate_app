@@ -8,8 +8,8 @@ django.setup()
 from houses.models import House
 
 
-# Input your rabbitmq URL
-params = pika.URLParameters('{{Your_AMQP_URL}}')
+amqp_url = "amqps://mtvqdhex:hITzepEi6xooDvcF3i2pnf6qqdfdwalJ@rattlesnake.rmq.cloudamqp.com/mtvqdhex"
+params = pika.URLParameters(amqp_url)
 
 # Create a connection
 connection = pika.BlockingConnection(params)

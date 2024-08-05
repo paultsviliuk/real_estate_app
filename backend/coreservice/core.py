@@ -57,6 +57,8 @@ def like(id):
         db.session.add(houseChecker)
         db.session.commit()
 
+        publish('house_checked', id)
+
     except:
         abort(400, 'You have liked this house.')
 
@@ -74,6 +76,8 @@ def check(id):
         houseChecker = HouseChecker(checker_id=json['id'], house_id=id)
         db.session.add(houseChecker)
         db.session.commit()
+
+        publish('house_liked', id)
 
     except:
         abort(400, 'You have checked this house.')

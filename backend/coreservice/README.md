@@ -1,11 +1,6 @@
-Core app contains the House model which have the following attributes:
+Before running the app:
 
-    A name for identification of each house.
-
-    An image data of each house for visual recognition.
-
-    A description of each house. 
-
+update "Your_AMQP_URL" with relevant data.
 
 Running the app:
 
