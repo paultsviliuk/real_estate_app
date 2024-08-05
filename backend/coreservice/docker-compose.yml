@@ -2,20 +2,20 @@ version: '3'
 services:
   backend:
     build: .
-    command: 'python3 manage.py runserver 0.0.0.0:8000'
+    command: 'python3 core.py'
     ports:
-      - 8000:8000
+      - 5000:5000
     volumes:
-      - .:/backendservice
+      - .:/coreservice
     depends_on:
        db:
           condition: service_healthy
-  
+
   db:
     image: mysql:latest
     restart: always
     environment:
-      MYSQL_DATABASE: config
+      MYSQL_DATABASE: core
       MYSQL_USER: microservice 
       MYSQL_PASSWORD: microservice 
       MYSQL_ROOT_PASSWORD: microservice 
@@ -25,6 +25,6 @@ services:
       - 3306:3306
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
- 
+      
 volumes:
   dbdata:
